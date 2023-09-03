@@ -122,7 +122,6 @@ public class Cutils {
     continentDataLocations = temp[searcharray("ContinentDataLocations", temp)[0]].split(";")[1].split("/");
     // out.println(Arrays.toString(continentDataLocations));
     // out.println(DataPoints.length + "DATA POINTS LENGTH");
-    // hi cole, burger ples. -annabell
 
     // here we are loading the config for CountryAbbreviation because most of the
     // html pages dont have the country abbreviatoins
@@ -173,7 +172,7 @@ public class Cutils {
     }
   }
 
-  public static void inject_Data() throws IOException {
+  /*public static void inject_Data() throws IOException {
     // read in the file
     // open the file from file[index].split("-")[0];
     // inject new data at the end of it and close the file
@@ -199,7 +198,7 @@ public class Cutils {
         tmpa[count] = file.nextLine();
         count++;
       }
-      file.close(); */
+      file.close(); 
 
       tmpa = Cutils.addArrayindex(tmpa);
       tmpa[tmpa.length - 1] = holder.split("!")[1];
@@ -213,7 +212,7 @@ public class Cutils {
 
     }
 
-  }
+  }*/
 
   public static boolean writeInfoToPage(String data, String font) throws IOException {
 
@@ -232,8 +231,6 @@ public class Cutils {
 
     //g.setColor(new Color(0xFF0000));
 
-    // out.println(Arrays.toString(datf) + " DATF HERE
-    // -----------------------------------------------------------");
     for (int i = 0; i < datf.length; i++) {
 
       if (i == 0) // if the text will be a title, do this 
