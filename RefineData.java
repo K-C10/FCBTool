@@ -28,8 +28,6 @@ public class RefineData
             
             construct = holder.split(">")[0] + "/" + holder.split(">")[1] + ">" + holder.split(">")[1] + "~"; // setting up the header for the country 
 
-            //out.println("-------------------------------------------------------------------------" + Arrays.toString(holder.split(">")[2].split(",")) + "---------------------------------------------------------------------------------");
-
             tempData2 = holder.split(","); // setting up the rest of the data to be used by the main program for refining
 
             //out.println(Arrays.toString(tempData2) + "\n\n\n\n\n\n\n\n\n\n");
@@ -37,19 +35,12 @@ public class RefineData
             for(int x = 0; x < tempData2.length; x++)
             {
                 //out.println(tempData2[x] + " here was where the loop prints out what its working on");
-                //out.println(Cutils.DataPoints[x]);
                 try{
-
-                    //out.println(Arrays.toString(tempData2[x].split("~")));
                     
                     data = tempData2[x].split("~")[Cutils.DataOffsets[x]].split("<")[0]; // splitting on the "<" just removes the junk that we dont need, does not affect the main data
                     data = data.replaceAll("[&#]", "");
                     temp = data;
-                    //out.println(tempData2[x].split("~")[Cutils.DataOffsets[x]] + " x-> " + x + " dataoffsets -> " + Cutils.DataOffsets[x] + "\n " + Arrays.toString(tempData2[x].split("~")));
-                    //out.println(data);
-                    //out.println(tempData2[x]);
-                    //Thread.sleep(1000);
-                    switch (Cutils.DataPoints[x]) {
+                    switch (Cutils.DataPoints[x]) { // if i knew a better way to do this i would use it, but this is good enough for what this program does as a whole
                         case "Location":
                         //out.println("Location");
                         data = data.split("\u2587")[0];
@@ -225,18 +216,13 @@ public class RefineData
                         break;    
                     }
 
-                    //out.println("Data -> " + data + "\n\n");
-
                     construct += data + "~";  
-                    
-                    //out.println("Loop Finished Without errors");
+
 
                  } catch (ArrayIndexOutOfBoundsException oob){
                     //if(x==3)
                     //{construct += "No Border Countries~";
                     // continue;}
-
-                     //out.println("-----------------------\n\nerror with loop\n\n-----------------------");
                     
                     //out.println(data);
 
@@ -384,7 +370,7 @@ public class RefineData
 
     }   
 
-    private static int getContinet(String input){
+    private static int getContinet(String input){ // small function do small idea. TODO: FIX THIS 
         //out.println("comparing " + input);
         if(input.equals("North America"))
             return 0;
