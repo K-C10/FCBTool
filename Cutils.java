@@ -9,13 +9,17 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import static java.lang.System.*;
 import java.util.*;
-
 import javax.imageio.ImageIO;
 
 public class Cutils {
@@ -122,6 +126,7 @@ public class Cutils {
     continentDataLocations = temp[searcharray("ContinentDataLocations", temp)[0]].split(";")[1].split("/");
     // out.println(Arrays.toString(continentDataLocations));
     // out.println(DataPoints.length + "DATA POINTS LENGTH");
+    // hi cole, burger ples. -annabell
 
     // here we are loading the config for CountryAbbreviation because most of the
     // html pages dont have the country abbreviatoins
@@ -170,9 +175,42 @@ public class Cutils {
         filew.close();
       }
     }
+    
+    /*String[] blankPages = {"North America.png", "South America.png", "Europe.png", "Asia.png", "Africa.png", "Australia.png"};
+
+
+
+    JarFile file = new JarFile(Terminal.ProgramName);
+    
+    Enumeration<JarEntry> entries = file.entries();
+    while(entries.hasMoreElements()) {
+      String data = "";
+      JarEntry entry = entries.nextElement();
+      data = entry.toString();
+      for(String item : blankPages) {
+        if(item.equals(data)){
+          int readBytes;
+          FileWriter fw = new FileWriter(new File(item));
+          InputStream is = file.getInputStream(entry);
+
+            BufferedWriter output = new BufferedWriter(fw);
+                 while ((readBytes = is.read() ) != -1) {
+                    output.write((char) readBytes);
+                 }
+
+          is.close();
+          output.close();
+          fw.close();
+          out.println(data);
+          continue;
+        }
+      }
+    }
+
+    file.close();*/
   }
 
-  /*public static void inject_Data() throws IOException {
+  public static void inject_Data() throws IOException {
     // read in the file
     // open the file from file[index].split("-")[0];
     // inject new data at the end of it and close the file
@@ -180,6 +218,7 @@ public class Cutils {
     FileWriter fout;
     String[] tmpa = new String[0];
     String holder = "";
+  //  int count = 0;
 
     while (in.hasNextLine()) {
       holder = in.nextLine();
@@ -198,7 +237,7 @@ public class Cutils {
         tmpa[count] = file.nextLine();
         count++;
       }
-      file.close(); 
+      file.close(); */
 
       tmpa = Cutils.addArrayindex(tmpa);
       tmpa[tmpa.length - 1] = holder.split("!")[1];
@@ -212,7 +251,7 @@ public class Cutils {
 
     }
 
-  }*/
+  }
 
   public static boolean writeInfoToPage(String data, String font) throws IOException {
 
@@ -220,38 +259,69 @@ public class Cutils {
 
     String cpage = data.split("\u2588")[0], country = data.split("\u2588")[1];
     String[] datf = data.split("\u2588")[2].split("~");
+    String temp = cpage + ".png";
 
-    BufferedImage page = ImageIO.read(new File(cpage + ".png"));
+    JarFile file = new JarFile(Terminal.ProgramName);    
+    Enumeration<JarEntry> entries = file.entries();
+    JarEntry entry = entries.nextElement();
+    while(entries.hasMoreElements()){
+      
+        if(temp.equals(entry.toString())){
+          break;
+        }
+      entry = entries.nextElement();
+    }
+    BufferedImage page = ImageIO.read(file.getInputStream(entry));
+    file.close();
+
+    
 
     Graphics g = page.getGraphics();
 
-  //  g.setColor(new Color(0x251607)); // closest color to pencil marking
-    g.setColor(new Color(0x8b8a85)); // my pencil marking
+    g.setColor(new Color(0x251607)); // closest color to pencil marking
+  //  g.setColor(new Color(0x8b8a85)); // my pencil marking
 
 
     //g.setColor(new Color(0xFF0000));
 
+    // out.println(Arrays.toString(datf) + " DATF HERE
+    // -----------------------------------------------------------");
     for (int i = 0; i < datf.length; i++) {
 
-      if (i == 0) // if the text will be a title, do this 
-        g.setFont(new Font(font, Font.BOLD, 70 - (int) Math.floor(Math.random() * (5 - -5 + 1) + -5)));
-      else // text will be smaller than a title
-        g.setFont(new Font(font, Font.BOLD, 40 - (int) Math.floor(Math.random() * (5 - -5 + 1) + -5)));
+      if(!(cpage.equals("Europe") || cpage.equals("South America"))){
+        if (i == 0) // if the text will be a title, do this 
+          g.setFont(new Font(font, Font.BOLD, 80 - (int) Math.floor(Math.random() * (5 - -5 + 1) + -5)));
+        else // text will be smaller than a title
+          g.setFont(new Font(font, Font.BOLD, 55 - (int) Math.floor(Math.random() * (5 - -5 + 1) + -5)));
+      } else {
 
+        if (i == 0) // if the text will be a title, do this 
+          g.setFont(new Font(font, Font.BOLD, 40 - (int) Math.floor(Math.random() * (5 - -5 + 1) + -5)));
+        else // text will be smaller than a title
+          g.setFont(new Font(font, Font.BOLD, 35 - (int) Math.floor(Math.random() * (5 - -5 + 1) + -5)));
+      }
       // Integer.parseInt(data.split("~")[1].split("`")[0]);
       // data is like "text"!x`y~"text"!x`y~"text"!x`y
       // out.println("Writing " + datf[i].split("!")[0] + " to " + country);
       //out.println(datf[i]);
-      g.drawString(datf[i].split("!")[0], Integer.parseInt(datf[i].split("!")[1].split("`")[0]),
-          Integer.parseInt(datf[i].split("!")[1].split("`")[1]));
+      g.drawString(datf[i].split("!")[0], Integer.parseInt(datf[i].split("!")[1].split("`")[0]), Integer.parseInt(datf[i].split("!")[1].split("`")[1]));
       // g.drawString(datf[i].split("~")[0],
       // Integer.parseInt(datf[i].split("~")[1].split("`")[0]),
       // Integer.parseInt(datf[i].split("~")[1].split("`")[1]));
     }
+    
+      g.setFont(new Font("Calibri", Font.BOLD, 50));
+      if(cpage.equals("Europe") || cpage.equals("South America")){
+        g.setColor(new Color(0xff0000));
+      }else{
+        g.setColor(new Color(0xff0000));
+      }
+    
     // Continent-country.png
     ImageIO.write(page, "png", new File(cpage + "-" + country + ".png"));
     //out.println("Wrote page for " + country);
     return true;
+  
   }
 
   public static boolean gitWebpage(String WebUrl, String filename) throws IOException {
@@ -373,5 +443,17 @@ public class Cutils {
     }
 //    out.println(index + "in Cutils.findnearestChar()");
     return index;
+  }
+
+  public static byte[] strtobyte(String input) {
+    byte[] output = new byte[input.split(",").length];
+    int count = 0;
+
+    for(String item : input.split(",")) {
+
+      output[count++] = Byte.parseByte(item);
+    }
+
+    return output;
   }
 }
