@@ -9,19 +9,17 @@ class GatherData {
   private static ArrayList<String> ResLog = new ArrayList<String>();
   
   
-  // this is the main ticking heart of the program, when it is called the program checkes to see if the needed files exist, then it processes the data in the raw form to a files to later be processed by ProcessInfo
-  // oh also it returns void       \/ is if the html files need to be deleted after running
   static int tempp = 0;
   public static boolean generateInfo(boolean CleanFiles) throws IOException {
 
     Scanner file = new Scanner(new File("Countries.dat"));
 
-    String holder = ""; int size = Integer.parseInt(file.nextLine()); // initializing all the variables and the progress bar for the UI
+    String holder = ""; int size = Integer.parseInt(file.nextLine());
     String[] temp = new String[size+1]; String Marker = "";
     FileWriter raw;
     Progress Bar = new Progress(Cutils.BarSize, Cutils.Barfilled, Cutils.BarEmpty);
 
-    //out.print(verifyFiles());
+
 
     out.println("Getting raw Information"); // this block of code will go throught the entire list of countries and gather the data on them, then it stores it into an arraylist ResLog for later writing
     
@@ -35,27 +33,26 @@ class GatherData {
         i--;
         continue;
       }
-      //temps = "";
+
 
       ResLog.add(Marker + ">" + holder + ">" + Arrays.toString(gitInfo(holder)));
       Bar.update(i + 1, size);
     }
     file.close();
 
-    //Bar.calcBar(count, size);
-    //Bar.refreshbar();
+
     temp = new String[ResLog.size()];
     for(int i = 0; i < ResLog.size(); i++)
       temp[i] = ResLog.get(i);
 
-    //out.println(Arrays.toString(temp));
+
 
     // writing the raw data to a file for later processing
     raw = new FileWriter(new File("CountryRawData.dat"));  
     raw.write(size + "\n");
     for(int i = 0; i < temp.length; i++)// writing the finished raw data
     {
-      raw.write(temp[i] + '\n'); //ahhhhh i figures out the problem in refine data is caused by us removing the commas before writing and not after making the raw data
+      raw.write(temp[i] + '\n'); //ahhhhh i figures out the problem, in refine data is caused by us removing the commas before writing and not after making the raw data
     }
     raw.close();
     if(CleanFiles)
@@ -65,15 +62,7 @@ class GatherData {
     return true;
   }////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  /*private static String removeChar(char target, String input) throws IOException{
-    String output = "";
-    for(int i = 0; i < input.length(); i++)
-    {if(input.charAt(i) == target)
-        continue;
-      output += input.charAt(i);
-    }
-    return output;
-  }*/
+  
 
   // this function takes in a country name and reads the countries file and searches for the keys in the string array info and writes to that index the returned info. once it is done it returns an array of unporcessed info
   public static String[] gitInfo(String Country_Name) throws IOException {
@@ -100,18 +89,14 @@ class GatherData {
 
          if(dataLoc[0] != -1){
            for(int x = dataLoc[0]; x < dataLoc[0] + 10; x++) { // info Grabber here
-            //out.print(info[i] + " SPACE ");
-            //out.println(holder.length);
 
             info[i] += " ~ " +  swapChar(',','\u2587', file[x]);
-            //out.print(fl);
            }
           }
         if(dataLoc[0] == -1){
-          //out.println(Cutils.DataPoints[i] + " " + holder + "\n\n");
           for(int ij = 0; ij < 10; ij++)  
             info[i] += " ~ ";
-          //out.println("ERROR with" + file[fl].split(">") + " was Prolly not found, check spelling and or caps!?");
+          //out.println("ERROR with" + file[fl].split(">") + " was not found, check spelling and or caps!?");
         }
         }
      // }
@@ -125,7 +110,7 @@ class GatherData {
   // this function takes in a WebUrl and an output filename, then it makes a file and writes the webpage to it. if any error happens with it it just returns false and adds it to the error log
   
 
-  // this program is very self explanitory, it takes two char, 1 is the target, and 2 is what to swap it with, then the string comes in to be the programs data / is what the program is edditing
+  // this function is very self explanitory, it takes two char, 1 is the target, and 2 is what to swap it with, then the string comes in to be the programs data / is what the program is edditing
   private static String swapChar(char target, char swaper, String input){
     String output = "";
     for(int i = 0; i < input.length(); i++)
@@ -139,7 +124,7 @@ class GatherData {
     return output;
   }
 
-  // this function ensures that all the files needed to get the info is present, if the file is nonexistant then the program downloads the file to its working directory
+  // this function ensures that all the files needed to get the info is present, if the file is nonexistant then the program downloads the file to its root directory
   public static String verifyFiles() throws IOException
   {
     Progress bar = new Progress(Cutils.BarSize, Cutils.Barfilled, Cutils.BarEmpty);
