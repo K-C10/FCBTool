@@ -60,7 +60,7 @@ public class Terminal {
           } */
 
           new File("00Refined Data.dat").delete();
-          new File("CountryRawData.dat").delete(); // issue with data not being right first time being ran but being found the second time might be that the incorrect data is stored somewhere in memory and is refering to that rather than the repaired data
+          new File("CountryRawData.dat").delete(); 
 
           GatherData.generateInfo(cleanHtmlFiles);
 
@@ -87,9 +87,6 @@ public class Terminal {
     }
     
     user.close();
-
-    // inject data, build refined data, compile errors, autorun,write error logs,
-    // clean files
   }
 
   public static void writeData(String font) throws IOException {
