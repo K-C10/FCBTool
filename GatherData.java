@@ -1,5 +1,3 @@
-// made by Cole Walser 2023
-
 import static java.lang.System.*;
 import java.util.*;
 import java.io.*;
