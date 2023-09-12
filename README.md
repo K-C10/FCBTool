@@ -1,7 +1,7 @@
 # FCBTool
 FCBTool is a program written to complete country pages.
 It is written in java only, and works only on windows  
-This program is for educational purposes only and should not be used to do your country pages, GOT THAT!
+This program is a proof of concept that this assignment was busy work with no real use for our time, but still don't use it to do your country pages
 
 
 # Running FCBTool
